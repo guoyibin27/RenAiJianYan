@@ -7,37 +7,79 @@
 //
 
 #import "ProductViewController.h"
+#import "ProductManager.h"
+#import "ProductModel.h"
+#import "UIImageView+WebCache.h"
+#import "ProductListTableViewCell.h"
+#import "ShoppingCartManager.h"
 
-@interface ProductViewController ()
-@property (retain, nonatomic) UIImageView *imageView;
+@interface ProductViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
+@property (retain, nonatomic) UISearchBar *searchBar;
+@property (retain, nonatomic) UITableView *tableView;
+@property (retain, nonatomic) NSMutableArray *dataSource;
 @end
 
 @implementation ProductViewController
 
+-(void)loadView{
+    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _searchBar = [[UISearchBar alloc] initWithFrame:(CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 44))];
+    _searchBar.placeholder = @"关键字";
+    _searchBar.delegate = self;
+    
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_searchBar.frame) + 10, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - CGRectGetHeight(_searchBar.frame) - 10 ) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    
+    [self.view addSubview:self.searchBar];
+    [self.view addSubview:self.tableView];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UnavailableBg"]];
-    [self.imageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
-    self.imageView.frame = CGRectMake(self.view.center.x - CGRectGetWidth(self.imageView.frame) / 2, self.view.center.y - CGRectGetHeight(self.imageView.frame) / 2, CGRectGetWidth(self.imageView.frame), CGRectGetHeight(self.imageView.frame));
-    [self.view addSubview:self.imageView];
+    _dataSource = [NSMutableArray array];
+    
+    [[ProductManager manager] queryProduct:@"" block:^(NSError *error, NSMutableArray *array) {
+        if(error){
+            [self showMessage:error.localizedDescription];
+        }else{
+            self.dataSource = array;
+        }
+    }];
+    
     [super viewDidLoad];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self setNavigationBarTitle:@"敬请期待"];
+    [self setNavigationBarTitle:@"商品"];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *cellId = @"productListCell";
+    ProductListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if(!cell){
+        cell = [[ProductListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    ProductModel *pm = self.dataSource[indexPath.row];
+    [cell.productPicture sd_setImageWithURL:[NSURL URLWithString:pm.primaryPicture] placeholderImage:[UIImage imageNamed:@"PhotoNotAvailable"]];
+    cell.productName.text = pm.productName;
+    cell.productPrice.text = [pm.productPrice stringValue];
+    [cell.addShoppingCartButton setTag:indexPath.row];
+    [cell.addShoppingCartButton addTarget:self action:@selector(addToShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
+    return cell;
 }
-*/
+
+-(void)addToShoppingCart:(UIButton *)sender{
+    ProductModel *currentPm = self.dataSource[sender.tag];
+    [[ShoppingCartManager manager] addToCart:currentPm];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.dataSource.count;
+}
+
+
 
 @end
