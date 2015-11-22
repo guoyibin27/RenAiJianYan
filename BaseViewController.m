@@ -101,4 +101,12 @@
     UnavailableViewController *unavailableVC = [[UnavailableViewController alloc] init];
     [[self navigationController] showViewController:unavailableVC sender:nil];
 }
+
+- (void) showToast:(NSString *) message{
+    [ProgressHUD showSuccess:message];
+}
+
+- (void) showToastWithError:(NSString *) message{
+    [ProgressHUD showError:message];
+}
 @end

@@ -183,16 +183,6 @@ NSString *const ReportTableDescription = @"ReportTableDescription";
     [super didReceiveMemoryWarning];
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.dataSourceDict.count;
 }
@@ -274,7 +264,7 @@ NSString *const ReportTableDescription = @"ReportTableDescription";
 - (IBAction)collectReport:(id)sender {
     [[ExaminationReportManager manager] collectExaminationReportWithUserId:[AppDelegate getCurrentLogonUser].userId reportId:self.resultReport.reportId reportNumber:self.resultReport.examinationNumber block:^(NSError *error, id object) {
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }else{
             UIButton *button = (UIButton *)sender;
             button.enabled = NO;

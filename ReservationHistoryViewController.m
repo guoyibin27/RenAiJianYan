@@ -174,7 +174,7 @@
     NSDate *endDate = [_dateformatter dateFromString:model.end];
     NSDate *now = [NSDate date];
     if([model.reservationMethod isEqualToString:@"P"]){
-        [self showMessage:@"此预约是电话咨询，无法进行咨询室"];
+        [self showToastWithError:@"此预约是电话咨询，无法进行咨询室"];
         return;
     }
 
@@ -184,7 +184,7 @@
             NSString *owner = [NSString stringWithFormat:@"servicer_%@",model.serviceExpertId];
             [[CDChatManager manager] fetchConvWithOwner:owner callback:^(AVIMConversation *conversation, NSError *error) {
                 if(error){
-                    [self showMessage:@"无法进入咨询室，请稍后重试"];
+                    [self showToastWithError:@"无法进入咨询室，请稍后重试"];
                 }else{
                     [self openConversation:conversation reservation:model needShowInputViews:NO];
                 }
@@ -202,20 +202,20 @@
         NSString *owner = [NSString stringWithFormat:@"servicer_%@",model.serviceExpertId];
         [[CDChatManager manager] fetchConvWithOwner:owner callback:^(AVIMConversation *conversation, NSError *error) {
             if(error){
-                [self showMessage:@"无法进入咨询室，请稍后重试"];
+                [self showToastWithError:@"无法进入咨询室，请稍后重试"];
             }else{
                 [self joinConversation:conversation reservation:model];
             }
         }];
     }else{
-        [self showMessage:@"还没到预约时间或预约时间已过"];
+        [self showToastWithError:@"还没到预约时间或预约时间已过"];
     }
 }
 
 - (void)joinConversation:(AVIMConversation *)conversation reservation:(AvailableReservationModel *)model{
     [[CDChatManager manager] joinConversation:conversation callback:^(BOOL succeeded, NSError *error) {
         if(error){
-            [self showMessage:@"无法进入，请稍后重试"];
+            [self showToastWithError:@"无法进入，请稍后重试"];
         }else{
             [self openConversation:conversation reservation:model needShowInputViews:YES];
         }

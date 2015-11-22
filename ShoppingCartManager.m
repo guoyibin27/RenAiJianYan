@@ -25,12 +25,12 @@ static ShoppingCartManager *instance;
 -(void) addToCart:(ProductModel *) product{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *dict = [self getShoppingCart];
-    if(dict){//购物车空的
+    if(!dict){//购物车空的
         dict = [[NSMutableDictionary alloc] init];
     }
     ProductModel *pm = [dict  objectForKey:product.productId];
     if(pm){//购物车中找到要加入的商品
-        pm.buyCount = [NSNumber numberWithInt:pm.buyCount.intValue + 1];
+        product.buyCount = [NSNumber numberWithInt:pm.buyCount.intValue + 1];
     }else{//找不到，则把当前要加入的商品加进去
         product.buyCount = [NSNumber numberWithInt:1];
     }
@@ -47,7 +47,7 @@ static ShoppingCartManager *instance;
     NSMutableDictionary *dict = [self getShoppingCart];
     ProductModel *pm = [dict  objectForKey:product.productId];
     if(pm){//购物车中找到要加入的商品
-        pm.buyCount = [NSNumber numberWithInt:pm.buyCount.intValue - 1];
+        product.buyCount = [NSNumber numberWithInt:pm.buyCount.intValue - 1];
     }
     //将商品放进字典中
     [dict setObject:product forKey:product.productId];

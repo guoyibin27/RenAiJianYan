@@ -56,22 +56,22 @@
 
 -(void)modifyPassword{
     if([self isStringNilOrEmpty:self.oldPasswordField.text]){
-        [self showMessage:@"旧密码不能为空"];
+        [self showToastWithError:@"旧密码不能为空"];
         return;
     }
     
     if([self isStringNilOrEmpty:self.passwordField.text]){
-        [self showMessage:@"新密码不能为空"];
+        [self showToastWithError:@"新密码不能为空"];
         return;
     }
     
     if([self isStringNilOrEmpty:self.rePasswordField.text]){
-        [self showMessage:@"确认密码不能为空"];
+        [self showToastWithError:@"确认密码不能为空"];
         return;
     }
     
     if(![self.rePasswordField.text isEqualToString:self.passwordField.text]){
-        [self showMessage:@"新密码和确认密码不一致"];
+        [self showToastWithError:@"新密码和确认密码不一致"];
         self.rePasswordField.text = @"";
         self.passwordField.text = @"";
         return;
@@ -81,9 +81,9 @@
     [[UserManager manager] resetPasswordWithUserId:[AppDelegate getCurrentLogonUser].userId oldPassword:self.oldPasswordField.text newPassword:self.passwordField.text block:^(NSError *error, id object) {
         [self dismissProgress];
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }else{
-            [self showMessage:object];
+            [self showToastWithError:object];
             self.oldPasswordField.text = @"";
             self.passwordField.text = @"";
             self.rePasswordField.text = @"";

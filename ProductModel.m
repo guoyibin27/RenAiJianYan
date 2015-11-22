@@ -32,6 +32,10 @@
             NSDictionary *picture = pictures[i];
             [self.productPictures addObject:[picture objectForKey:@"_pictureURL"]];
         }
+        NSDictionary *suppler = [jsonDict objectForKey:@"_supplier"];
+        if(suppler != nil){
+            self.supplierName = [suppler objectForKey:@"_supplierName"];
+        }
     }
     return self;
 }
@@ -53,6 +57,8 @@
     [aCoder encodeObject:self.productPrice forKey:@"productPrice"];
     [aCoder encodeObject:self.primaryPicture forKey:@"primaryPicture"];
     [aCoder encodeObject:self.buyCount forKey:@"buyCount"];
+    [aCoder encodeObject:self.supplierName forKey:@"supplierName"];
+    
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -72,6 +78,7 @@
     self.productPrice = [aDecoder decodeObjectForKey: @"productPrice"];
     self.primaryPicture = [aDecoder decodeObjectForKey: @"primaryPicture"];
     self.buyCount = [aDecoder decodeObjectForKey:@"buyCount"];
+    self.supplierName = [aDecoder decodeObjectForKey:@"supplierName"];
     return self;
 }
 @end

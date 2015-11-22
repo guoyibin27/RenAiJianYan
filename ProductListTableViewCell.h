@@ -11,8 +11,8 @@
 @interface ProductListTableViewCell : UITableViewCell
 
 @property (retain, nonatomic) UIImageView *productPicture;
-@property (retain, nonatomic) UITextView *productName;
-@property (retain, nonatomic) UITextView *productPrice;
+@property (retain, nonatomic) UILabel *productName;
+@property (retain, nonatomic) UILabel *productPrice;
 @property (retain, nonatomic) UIButton *addShoppingCartButton;
 
 @end

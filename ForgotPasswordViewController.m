@@ -54,9 +54,9 @@
         [[UserManager manager] findPasswordWithUserName:self.usernameField.text phone:self.phoneField.text block:^(NSError *error, id object) {
             [self dismissProgress];
             if(error){
-                [self showMessage:error.localizedDescription];
+                [self showToastWithError:error.localizedDescription];
             }else{
-                [self showMessage:object];
+                [self showToastWithError:object];
             }
         }];
     }
@@ -64,12 +64,12 @@
 
 - (BOOL) validate{
     if([self isStringNilOrEmpty:self.phoneField.text]){
-        [self showMessage:@"请输入手机号码"];
+        [self showToastWithError:@"请输入手机号码"];
         return NO;
     }
     
     if([self isStringNilOrEmpty:self.usernameField.text]){
-        [self showMessage:@"请输入用户名"];
+        [self showToastWithError:@"请输入用户名"];
         return NO;
     }
     

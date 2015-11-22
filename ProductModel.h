@@ -26,6 +26,7 @@
 @property (retain, nonatomic) NSString *primaryPicture;
 @property (retain, nonatomic) NSMutableArray *productPictures;
 @property (retain, nonatomic) NSNumber *buyCount;
+@property (retain, nonatomic) NSString *supplierName;
 
 - (instancetype) initWithJson:(NSDictionary *)json;
 @end

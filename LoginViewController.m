@@ -82,7 +82,7 @@
         [[UserManager manager] loginWithUserName:usernameFeild.text password:passwordField.text block:^(NSError *error, id object) {
             [self dismissProgress];
             if(error){
-                [self showMessage:error.localizedDescription];
+                [self showToastWithError:error.localizedDescription];
             }else{
                 [AppDelegate putCurrentLogonUser:object];
                 [self dismissViewControllerAnimated:YES completion:nil];
@@ -93,12 +93,12 @@
 
 - (BOOL) validateInputFieldValue{
     if([self isStringNilOrEmpty:usernameFeild.text]){
-        [self showMessage:@"请输入用户名"];
+        [self showToastWithError:@"请输入用户名"];
         return NO;
     }
     
     if([self isStringNilOrEmpty:passwordField.text]){
-        [self showMessage:@"请输入密码"];
+        [self showToastWithError:@"请输入密码"];
         return NO;
     }
     

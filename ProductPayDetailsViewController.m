@@ -1,17 +1,16 @@
 //
-//  ReservationPayDetailsViewController.m
+//  ProductPayDetailsViewController.m
 //  RenAiJianYan
 //
-//  Created by Sylar on 9/10/15.
-//  Copyright (c) 2015 Gyb. All rights reserved.
+//  Created by Sylar on 15/11/21.
+//  Copyright © 2015年 Gyb. All rights reserved.
 //
 
-#import "ReservationPayDetailsViewController.h"
+#import "ProductPayDetailsViewController.h"
 #import "SectionModel.h"
 #import "PayDetailsOrderInfoCellModel.h"
 #import "PayDetailsPaymentMethodCellModel.h"
 #import "CellModel.h"
-#import "AvailableReservationModel.h"
 #import "UserModel.h"
 #import "AppDelegate.h"
 #import "WxPayData.h"
@@ -21,17 +20,17 @@
 #import "ReservationPayResultErrorViewController.h"
 #import "ReservationPayResultSuccessViewController.h"
 
-@interface ReservationPayDetailsViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface ProductPayDetailsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (retain, nonatomic) UITableView *tableView;
 @property (retain, nonatomic) NSMutableArray *data;
 @property (retain, nonatomic) PayDetailsPaymentMethodCellModel *selectedCell;
 @end
 
-@implementation ReservationPayDetailsViewController
+@implementation ProductPayDetailsViewController
 
 - (void)initDataSource {
-    PayDetailsOrderInfoCellModel *s1r1 = [PayDetailsOrderInfoCellModel initWithLabel:@"支付项目:" value:self.reservationModel.reservationDesc selector:nil];
-    PayDetailsOrderInfoCellModel *s1r2 = [PayDetailsOrderInfoCellModel initWithLabel:@"订单金额:" value:[NSString stringWithFormat:@"%@",self.reservationModel.amount] selector:nil];
+    PayDetailsOrderInfoCellModel *s1r1 = [PayDetailsOrderInfoCellModel initWithLabel:@"支付项目:" value:@"aaa" selector:nil];
+    PayDetailsOrderInfoCellModel *s1r2 = [PayDetailsOrderInfoCellModel initWithLabel:@"订单金额:" value:[NSString stringWithFormat:@"%@",@"123"] selector:nil];
     
     PayDetailsPaymentMethodCellModel *s2r1 = [PayDetailsPaymentMethodCellModel initWithTitle:@"微信支付" subTitle:@"推荐安装微信5.0及以上版本" method:PaymentMethodWeChatPay icon:@"WeChatPay" isChecked:YES];
     _selectedCell = s2r1;
@@ -62,6 +61,7 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     [self initDataSource];
     [self setupViews];
     [self configureTableView];
@@ -223,17 +223,18 @@
 }
 
 - (void)queryTradeState{
-    [self showProgress:nil];
-    [WxPayData queryPayStateWithReservationId:self.reservationModel.reservationId block:^(BOOL success) {
-        [self dismissProgress];
-        if(success){
-            ReservationPayResultSuccessViewController *successVC = [[ReservationPayResultSuccessViewController alloc] init];
-            [self showViewController:successVC sender:nil];
-        }else {
-            ReservationPayResultErrorViewController *errorVC = [[ReservationPayResultErrorViewController alloc] init];
-            errorVC.reservationModel = self.reservationModel;
-            [self showViewController:errorVC sender:nil];
-        }
-    }];
+//    [self showProgress:nil];
+//    [WxPayData queryPayStateWithReservationId:self.reservationModel.reservationId block:^(BOOL success) {
+//        [self dismissProgress];
+//        if(success){
+//            ReservationPayResultSuccessViewController *successVC = [[ReservationPayResultSuccessViewController alloc] init];
+//            [self showViewController:successVC sender:nil];
+//        }else {
+//            ReservationPayResultErrorViewController *errorVC = [[ReservationPayResultErrorViewController alloc] init];
+//            errorVC.reservationModel = self.reservationModel;
+//            [self showViewController:errorVC sender:nil];
+//        }
+//    }];
 }
+
 @end

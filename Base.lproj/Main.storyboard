@@ -368,7 +368,7 @@
         <!--我的地址-->
         <scene sceneID="Gmy-6i-0wQ">
             <objects>
-                <viewController title="我的地址" id="pQ7-hb-Ya5" sceneMemberID="viewController">
+                <viewController title="我的地址" id="pQ7-hb-Ya5" customClass="AddressListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2q1-qE-ewd"/>
                         <viewControllerLayoutGuide type="bottom" id="Zzq-Wy-t9a"/>
@@ -2091,23 +2091,23 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SmL-Zk-vuW">
                                 <rect key="frame" x="-60" y="-14" width="121" height="29"/>
                                 <animations/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="ZQk-l1-hWf">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="30"/>
-                                    </constraint>
+                                    <constraint firstAttribute="height" constant="28" id="0gK-b2-Uav"/>
                                 </constraints>
                                 <segments>
                                     <segment title="检测服务"/>
                                     <segment title="医疗服务"/>
                                 </segments>
+                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="ZQk-l1-hWf"/>
+                                        <exclude reference="0gK-b2-Uav"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="ZQk-l1-hWf"/>
+                                        <include reference="0gK-b2-Uav"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -2375,14 +2375,15 @@
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="SmL-Zk-vuW" firstAttribute="leading" secondItem="4UJ-aq-IfO" secondAttribute="leadingMargin" id="9ZS-NV-3Bo"/>
-                            <constraint firstItem="occ-ZO-9g4" firstAttribute="leading" secondItem="4UJ-aq-IfO" secondAttribute="leading" id="Z2B-NA-BML"/>
-                            <constraint firstAttribute="bottom" secondItem="occ-ZO-9g4" secondAttribute="bottom" id="j2C-oS-ljp"/>
-                            <constraint firstItem="occ-ZO-9g4" firstAttribute="top" secondItem="SmL-Zk-vuW" secondAttribute="bottom" constant="10" id="kgw-Tu-9PD"/>
-                            <constraint firstAttribute="trailing" secondItem="occ-ZO-9g4" secondAttribute="trailing" id="pyN-bJ-SB0"/>
-                            <constraint firstItem="SmL-Zk-vuW" firstAttribute="top" secondItem="oNZ-HO-Ob5" secondAttribute="bottom" constant="10" id="rNV-DG-JXz"/>
-                            <constraint firstItem="SmL-Zk-vuW" firstAttribute="trailing" secondItem="4UJ-aq-IfO" secondAttribute="trailingMargin" id="yOZ-L3-vvx"/>
+                            <constraint firstItem="occ-ZO-9g4" firstAttribute="leading" secondItem="4UJ-aq-IfO" secondAttribute="leading" id="2N3-1p-15D"/>
+                            <constraint firstAttribute="bottom" secondItem="occ-ZO-9g4" secondAttribute="bottom" id="8BJ-rc-apd"/>
+                            <constraint firstItem="SmL-Zk-vuW" firstAttribute="top" secondItem="oNZ-HO-Ob5" secondAttribute="bottom" constant="10" id="NQW-H9-55o"/>
+                            <constraint firstAttribute="trailing" secondItem="SmL-Zk-vuW" secondAttribute="trailing" constant="20" id="SbF-dm-l2U"/>
+                            <constraint firstItem="occ-ZO-9g4" firstAttribute="top" secondItem="SmL-Zk-vuW" secondAttribute="bottom" constant="12" id="dfH-VH-N9J"/>
+                            <constraint firstItem="SmL-Zk-vuW" firstAttribute="leading" secondItem="4UJ-aq-IfO" secondAttribute="leading" constant="20" id="uKt-W5-lCu"/>
+                            <constraint firstAttribute="trailing" secondItem="occ-ZO-9g4" secondAttribute="trailing" id="ugw-lK-orE"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -2390,13 +2391,13 @@
                                 <exclude reference="occ-ZO-9g4"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="9ZS-NV-3Bo"/>
-                                <exclude reference="rNV-DG-JXz"/>
-                                <exclude reference="yOZ-L3-vvx"/>
-                                <exclude reference="Z2B-NA-BML"/>
-                                <exclude reference="j2C-oS-ljp"/>
-                                <exclude reference="kgw-Tu-9PD"/>
-                                <exclude reference="pyN-bJ-SB0"/>
+                                <exclude reference="NQW-H9-55o"/>
+                                <exclude reference="SbF-dm-l2U"/>
+                                <exclude reference="uKt-W5-lCu"/>
+                                <exclude reference="2N3-1p-15D"/>
+                                <exclude reference="8BJ-rc-apd"/>
+                                <exclude reference="dfH-VH-N9J"/>
+                                <exclude reference="ugw-lK-orE"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -2405,13 +2406,13 @@
                                 <include reference="occ-ZO-9g4"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="9ZS-NV-3Bo"/>
-                                <include reference="rNV-DG-JXz"/>
-                                <include reference="yOZ-L3-vvx"/>
-                                <include reference="Z2B-NA-BML"/>
-                                <include reference="j2C-oS-ljp"/>
-                                <include reference="kgw-Tu-9PD"/>
-                                <include reference="pyN-bJ-SB0"/>
+                                <include reference="NQW-H9-55o"/>
+                                <include reference="SbF-dm-l2U"/>
+                                <include reference="uKt-W5-lCu"/>
+                                <include reference="2N3-1p-15D"/>
+                                <include reference="8BJ-rc-apd"/>
+                                <include reference="dfH-VH-N9J"/>
+                                <include reference="ugw-lK-orE"/>
                             </mask>
                         </variation>
                     </view>

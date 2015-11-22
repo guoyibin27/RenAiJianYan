@@ -38,6 +38,11 @@ typedef enum{
     ReservationTypePhone
 }ReservationType;
 
+typedef enum{
+    AddressModeNone,
+    AddressModeSelected
+}AddressListMode;
+
 #define CURRENT_USER @"CurrentUser"
 #define SHOPPING_CART @"ShoppingCart"
 
@@ -81,6 +86,11 @@ typedef enum{
 //product controller
 #define QUERY_PRODUCT @"product/products"
 #define PRODUCT_DETAILS @"product/productDetails"
+
+//Address Controller
+#define ADDRESS_LIST @"address/addresses"
+#define ADD_ADDRESS @"address/add"
+#define DELETE_ADDRESS @"address/delete"
 
 
 //block define

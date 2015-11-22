@@ -13,7 +13,7 @@
 
 - (void) setNavigationBarTitle:(NSString *)title;
 - (BOOL) isStringNilOrEmpty:(NSString *)str;
-- (void) showMessage:(NSString *) message;
+//- (void) showMessage:(NSString *) message;
 
 //设置导航右按钮
 - (void) showNavigationRightButton:(NSString *) buttonText selector:(SEL) selector;
@@ -28,4 +28,8 @@
 - (void) dismissProgress;
 
 - (void) forwardToUnavailableController;
+
+- (void) showToast:(NSString *) message;
+
+- (void) showToastWithError:(NSString *) message;
 @end

@@ -69,18 +69,18 @@
 
 - (void) finished{
     if ( _reservationType == ReservationTypeNone){
-        [self showMessage:@"请选择咨询方式"];
+        [self showToastWithError:@"请选择咨询方式"];
         return;
     }
     
     if (_reservationType == ReservationTypePhone) {
         if([self isStringNilOrEmpty:_telephoneField.text]){
-            [self showMessage:@"请输入联系电话"];
+            [self showToastWithError:@"请输入联系电话"];
             return;
         }
         
         if(![self isMobile:_telephoneField.text]){
-            [self showMessage:@"电话号码格式不正确"];
+            [self showToastWithError:@"电话号码格式不正确"];
             return;
         }
     }

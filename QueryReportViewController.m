@@ -42,7 +42,7 @@
 
 - (IBAction)queryReport:(id)sender {
     if([self isStringNilOrEmpty:self.examinationNumberField.text]){
-        [self showMessage:@"请输入采样包条码"];
+        [self showToastWithError:@"请输入采样包条码"];
         return;
     }
     
@@ -50,7 +50,7 @@
     [[ExaminationReportManager manager] queryExaminationReport:self.examinationNumberField.text block:^(NSError *error, id object) {
         [self dismissProgress];
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }else{
             [self performSegueWithIdentifier:@"showResultReport" sender:object];
         }

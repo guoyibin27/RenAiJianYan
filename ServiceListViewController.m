@@ -31,7 +31,7 @@
     [[ReservationManager manager] fetchServicesWithBlock:^(NSError *error, NSMutableArray *array) {
         [self dismissProgress];
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }else{
             self.servicesArray = array;
             [self.tableView reloadData];
@@ -50,7 +50,7 @@
 
 - (void) finishSelected{
     if (!self.serviceModel) {
-        [self showMessage:@"请选择咨询项目"];
+        [self showToastWithError:@"请选择咨询项目"];
     }else{
         if(_callback){
             _callback(self.serviceModel,self.subType);

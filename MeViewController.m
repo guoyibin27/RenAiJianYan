@@ -14,6 +14,8 @@
 #import "BasicTableViewCell.h"
 #import "Constants.h"
 #import "LeanChatLib.h"
+#import "ShoppingCartViewController.h"
+#import "AddressListViewController.h"
 
 @interface MeViewController ()
 
@@ -46,7 +48,8 @@ static NSString *cellIdentifier = @"meCell";
 
 - (void) showShoppingCart{
 //    [self performSegueWithIdentifier:@"showShoppingCart" sender:nil];
-    [self forwardToUnavailableController];
+    ShoppingCartViewController *vc = [[ShoppingCartViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void) showHistoryOrder{
@@ -63,8 +66,8 @@ static NSString *cellIdentifier = @"meCell";
 }
 
 - (void) showAddress{
-//     [self performSegueWithIdentifier:@"showAddress" sender:nil];
-    [self forwardToUnavailableController];
+     [self performSegueWithIdentifier:@"showAddress" sender:nil];
+//    [self forwardToUnavailableController];
 }
 
 - (void) configureTableView{
@@ -87,14 +90,15 @@ static NSString *cellIdentifier = @"meCell";
     [self setNavigationBarTitle:@"我"];
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+    if([segue.identifier isEqualToString:@"showAddress"]){
+        AddressListViewController *vc = segue.destinationViewController;
+        vc.displayMode = AddressModeNone;
+    }
 }
-*/
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

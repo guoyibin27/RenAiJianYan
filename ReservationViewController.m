@@ -93,7 +93,7 @@ static NSArray *reservationTypeArray;
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setNavigationBarTitle:@"预约"];
-    [self showNavigationRightButton:@"预约纪录" selector:@selector(showReservationHistory)];
+//    [self showNavigationRightButton:@"预约纪录" selector:@selector(showReservationHistory)];
     UserModel *currentLogonUser = [AppDelegate getCurrentLogonUser];
     if(!currentLogonUser || !currentLogonUser.userId){
         return;
@@ -172,7 +172,7 @@ static NSArray *reservationTypeArray;
 
 - (void) selectServicer:(id) sender{
     if(!self.selectedService){
-        [self showMessage:@"请先选择项目"];
+        [self showToastWithError:@"请先选择项目"];
         return;
     }
     [self performSegueWithIdentifier:@"showServiceExpert" sender:sender];
@@ -180,12 +180,12 @@ static NSArray *reservationTypeArray;
 
 - (void) selectDate:(id) sender{
     if(!self.selectedService){
-        [self showMessage:@"请先选择项目"];
+        [self showToastWithError:@"请先选择项目"];
         return;
     }
     
     if(!self.selectedExpert){
-        [self showMessage:@"请先选择专家"];
+        [self showToastWithError:@"请先选择专家"];
         return;
     }
     
@@ -193,27 +193,32 @@ static NSArray *reservationTypeArray;
 }
 
 - (void) setContactInfo:(id) sender{
+    if(!self.selectedReservation){
+        [self showToastWithError:@"请先选择预约时间"];
+        return;
+    }
+    
     [self performSegueWithIdentifier:@"showReservationType" sender:sender];
 }
 
 - (IBAction)makeAnAppointment:(id)sender {
     if(!self.selectedService){
-        [self showMessage:@"请选择项目"];
+        [self showToastWithError:@"请选择项目"];
         return;
     }
     
     if(!self.selectedExpert){
-        [self showMessage:@"请先选择专家"];
+        [self showToastWithError:@"请先选择专家"];
         return;
     }
     
     if(!self.selectedReservation){
-        [self showMessage:@"请先选择预约时间"];
+        [self showToastWithError:@"请先选择预约时间"];
         return;
     }
     
     if(self.reservationType == ReservationTypeNone){
-        [self showMessage:@"请选择咨询方式"];
+        [self showToastWithError:@"请选择咨询方式"];
         return;
     }
     
@@ -237,7 +242,7 @@ static NSArray *reservationTypeArray;
             payVC.reservationModel = object;
             [self showViewController:payVC sender:nil];
         }else{
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }
     }];
 }

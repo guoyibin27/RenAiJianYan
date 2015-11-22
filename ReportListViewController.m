@@ -28,7 +28,7 @@
     
     [[ExaminationReportManager manager] fetchReportsWithUserId:[AppDelegate getCurrentLogonUser].userId block:^(NSError *error, NSMutableArray *array) {
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }else{
             _datasource = array;
             [_tableView reloadData];
@@ -100,7 +100,7 @@
         ExaminationReportModel *model = _datasource[indexPath.row];
         [[ExaminationReportManager manager] removeReportWithUserId:[AppDelegate getCurrentLogonUser].userId reportId:model.reportId block:^(NSError *error, NSMutableArray *array) {
             if(error){
-                [self showMessage:error.localizedDescription];
+                [self showToastWithError:error.localizedDescription];
             }else{
                 _datasource = array;
                 [_tableView reloadData];

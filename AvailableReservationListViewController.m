@@ -113,7 +113,7 @@
 
 - (void) onSelectFinished{
     if(!self.selectedReservation){
-        [self showMessage:@"请选择预约时间"];
+        [self showToastWithError:@"请选择预约时间"];
         return;
     }
     if(_callback){

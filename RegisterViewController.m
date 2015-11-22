@@ -74,7 +74,7 @@
 
 - (void)getVerifyCode {
     if([self isStringNilOrEmpty:self.phone.text]){
-        [self showMessage:@"请输入手机号码"];
+        [self showToastWithError:@"请输入手机号码"];
         return;
     }
     [self showProgress:nil];
@@ -82,11 +82,11 @@
     self.fetchVerifyCodeButton.backgroundColor = [UIColor lightGrayColor];
     [[UserManager manager] fetchVerifyCodeWithPhone:self.phone.text block:^(NSError *error, id object) {                [self dismissProgress];
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
             self.fetchVerifyCodeButton.enabled = YES;
             [self.fetchVerifyCodeButton setBackgroundColor:Hex2UIColor(0x2987EA)];
         }else{
-            [self showMessage:object];
+            [self showToastWithError:object];
             _timerInterval = 60;
             self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countDown) userInfo:nil repeats:YES];
         }
@@ -110,7 +110,7 @@
         [[UserManager manager] validateVerifyCodeWithPhone:self.phone.text code:self.verifyCodeField.text block:^(NSError *error, id object) {
             if(error){
                 [self dismissProgress];
-                [self showMessage:error.localizedDescription];
+                [self showToastWithError:error.localizedDescription];
             }else{
                 UserModel *user = [[UserModel alloc] init];
                 user.userName = self.username.text;
@@ -119,7 +119,7 @@
                 [[UserManager manager] registerUser:user block:^(NSError *error, id object) {
                     [self dismissProgress];
                     if(error){
-                        [self showMessage:error.localizedDescription];
+                        [self showToastWithError:error.localizedDescription];
                     }else{
                         [AppDelegate putCurrentLogonUser:object];
                         [self dismissViewControllerAnimated:YES completion:nil];
@@ -132,22 +132,22 @@
 
 - (BOOL) validate{
     if([self isStringNilOrEmpty:self.phone.text]){
-        [self showMessage:@"请输入手机号码"];
+        [self showToastWithError:@"请输入手机号码"];
         return NO;
     }
     
     if([self isStringNilOrEmpty:self.verifyCodeField.text]){
-        [self showMessage:@"请输入验证码"];
+        [self showToastWithError:@"请输入验证码"];
         return NO;
     }
     
     if([self isStringNilOrEmpty:self.username.text]){
-        [self showMessage:@"请输入用户名"];
+        [self showToastWithError:@"请输入用户名"];
         return NO;
     }
     
     if([self isStringNilOrEmpty:self.password.text]){
-        [self showMessage:@"请输入密码"];
+        [self showToastWithError:@"请输入密码"];
         return NO;
     }
     

@@ -27,16 +27,23 @@
         self.productPicture.layer.masksToBounds = YES;
         self.productPicture.layer.cornerRadius = 5;
         
-        self.productName = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productPicture.frame) + 10, 10, CGRectGetWidth(self.contentView.frame) - CGRectGetMaxX(self.productPicture.frame) - 10, 30)];
-        self.productName.font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE_LARGE];
+        self.productName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productPicture.frame) + 10, 10, SCREEN_WIDTH - CGRectGetMaxX(self.productPicture.frame) - 20, 22)];
+        self.productName.font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE_MIDDLE];
+        [self.productName setUserInteractionEnabled:NO];
+        self.productName.numberOfLines = 1;
+        self.productName.lineBreakMode = NSLineBreakByTruncatingTail;
         
         
-        self.addShoppingCartButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.contentView.frame) - 40 , CGRectGetWidth(self.contentView.frame) - CGRectGetMaxX(self.productPicture.frame) - 10, 100, 30)];
+        self.addShoppingCartButton = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 110 ,CGRectGetMaxY(self.productName.frame) + 10, 100, 30)];
         self.addShoppingCartButton.layer.masksToBounds = YES;
         self.addShoppingCartButton.layer.borderColor = Hex2UIColor(0xEA9D11).CGColor;
+        self.addShoppingCartButton.layer.borderWidth = 1;
+        self.addShoppingCartButton.layer.cornerRadius = 5;
+        self.addShoppingCartButton.titleLabel.font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE_MIDDLE];
         [self.addShoppingCartButton setTitle:@"加入购物车" forState:UIControlStateNormal];
+        [self.addShoppingCartButton setTitleColor:Hex2UIColor(0xEA9D11) forState:UIControlStateNormal];
         
-        self.productPrice = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productPicture.frame) + 10, CGRectGetMaxY(self.productName.frame) + 10,  CGRectGetWidth(self.contentView.frame) - CGRectGetMaxX(self.productPicture.frame) - 110, 30)];
+        self.productPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productPicture.frame) + 10, CGRectGetMaxY(self.productName.frame) + 10,  SCREEN_WIDTH - CGRectGetMaxX(self.productPicture.frame) - 120, 22)];
         self.productPrice.textColor = Hex2UIColor(0xEA9D11);
         
         [self.contentView addSubview:self.productPrice];

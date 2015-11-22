@@ -31,7 +31,7 @@
     [[ReservationManager manager] fetchServicersWithServiceId:self.selectedService.serviceId subType:self.subType block:^(NSError *error, NSMutableArray *array) {
         [self dismissProgress];
         if(error){
-            [self showMessage:error.localizedDescription];
+            [self showToastWithError:error.localizedDescription];
         }else{
             _dataArray = array;
             [_tableView reloadData];
@@ -51,7 +51,7 @@
 
 - (void) finishSelected {
     if(!_selectedExpert){
-        [self showMessage:@"请选择一个专家"];
+        [self showToastWithError:@"请选择一个专家"];
     }else{
         if(_callback){
             _callback(_selectedExpert);
