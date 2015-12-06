@@ -15,6 +15,10 @@
 #import "Constants.h"
 #import "AddressListViewController.h"
 #import "SectionModel.h"
+#import "ProductManager.h"
+#import "UserModel.h"
+#import "AppDelegate.h"
+#import "ProductPayDetailsViewController.h"
 
 
 @interface ReceiptDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -43,7 +47,7 @@
     _payButton.layer.masksToBounds = YES;
     _payButton.layer.cornerRadius = 4;
     _payButton.titleLabel.font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE_MIDDLE];
-    [_cancelOrderButton addTarget:self action:@selector(createOrder) forControlEvents:UIControlEventTouchUpInside];
+    [_payButton addTarget:self action:@selector(createOrder) forControlEvents:UIControlEventTouchUpInside];
     
     _cancelOrderButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(_payButton.frame) - 100, 7, 80, 30)];
     [_cancelOrderButton setTitle:@"取消" forState:UIControlStateNormal];
@@ -63,7 +67,19 @@
 }
 
 - (void)createOrder{
-    
+    if(!_selectedAddress || _selectedAddress.addressId <= 0){
+        [self showToastWithError:@"请选择配送地址"];
+        return;
+    }
+    [self showProgress:nil];
+    [[ProductManager manager] receiptTotal:_productArray uid:[AppDelegate getCurrentLogonUser].userId address:_selectedAddress.addressId block:^(NSError *error, id object) {
+        [self dismissProgress];
+        ProductPayDetailsViewController *vc = [[ProductPayDetailsViewController alloc] init];
+        vc.productList = _productArray;
+        vc.addressId = _selectedAddress.addressId;
+        vc.receiptTotal = object;
+        [self.navigationController pushViewController:vc animated:YES];
+    }];
 }
 
 - (void)cancelOrder{
@@ -154,7 +170,7 @@
         }
         ProductModel *product = (ProductModel *)cellModel;
         cell.productName.text = product.productName;
-        cell.productPrice.text = [NSString stringWithFormat:@"¥ %@",product.productPrice.stringValue];
+        cell.productPrice.text = [NSString stringWithFormat:@"¥ %0.2f",[product calculateProductAmount]];
         cell.buyCount.text = [NSString stringWithFormat:@"x %@",product.buyCount.stringValue];
         [cell.productPicture sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_SERVER_HOST,product.primaryPicture]] placeholderImage:[UIImage imageNamed:@"PhotoNotAvailable"]];
         return cell;

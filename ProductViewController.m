@@ -18,6 +18,7 @@
 @property (retain, nonatomic) UISearchBar *searchBar;
 @property (retain, nonatomic) UITableView *tableView;
 @property (retain, nonatomic) NSMutableArray *dataSource;
+@property (retain, nonatomic) NSMutableArray *originalDatasource;
 @end
 
 @implementation ProductViewController
@@ -49,21 +50,29 @@
     _dataSource = [NSMutableArray array];
     [self configureTableView];
     
-    [[ProductManager manager] queryProduct:@"" block:^(NSError *error, NSMutableArray *array) {
+    [super viewDidLoad];
+}
+
+- (void) searchData:(NSString *)keyword{
+    [self showProgress:nil];
+    [[ProductManager manager] queryProduct:keyword block:^(NSError *error, NSMutableArray *array) {
+        [self dismissProgress];
         if(error){
             [self showToastWithError:error.localizedDescription];
         }else{
+            if([self isStringNilOrEmpty:keyword]){
+                _originalDatasource = array;
+            }
             self.dataSource = array;
             [self.tableView reloadData];
         }
     }];
-    
-    [super viewDidLoad];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setNavigationBarTitle:@"商品"];
+    [self searchData:_searchBar.text];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -75,7 +84,7 @@
     ProductModel *pm = self.dataSource[indexPath.row];
     [cell.productPicture sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_SERVER_HOST,pm.primaryPicture]] placeholderImage:[UIImage imageNamed:@"PhotoNotAvailable"]];
     cell.productName.text = pm.productName;
-    cell.productPrice.text = [NSString stringWithFormat:@"¥ %@",[pm.productPrice stringValue]];
+    cell.productPrice.text = [NSString stringWithFormat:@"¥ %0.2f",[pm calculateProductAmount]];
     [cell.addShoppingCartButton setTag:indexPath.row];
     [cell.addShoppingCartButton addTarget:self action:@selector(addToShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
@@ -103,5 +112,15 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [self searchData:searchBar.text];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    if([self isStringNilOrEmpty:searchText]){
+        self.dataSource = _originalDatasource;
+        [_tableView reloadData];
+    }
+}
 
 @end

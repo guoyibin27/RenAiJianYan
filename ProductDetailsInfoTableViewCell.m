@@ -27,6 +27,7 @@
         self.primaryPicture = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 100, 80)];
         self.primaryPicture.layer.masksToBounds = YES;
         self.primaryPicture.layer.cornerRadius = 4;
+        self.primaryPicture.userInteractionEnabled = YES;
         
         self.productName = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.primaryPicture.frame) + 10, 10,SCREEN_WIDTH - CGRectGetWidth(self.primaryPicture.frame) - 20 , 22)];
         self.productName.font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE_MIDDLE];

@@ -16,6 +16,7 @@
 #import "LeanChatLib.h"
 #import "ShoppingCartViewController.h"
 #import "AddressListViewController.h"
+#import "MyReceiptsViewController.h"
 
 @interface MeViewController ()
 
@@ -53,8 +54,8 @@ static NSString *cellIdentifier = @"meCell";
 }
 
 - (void) showHistoryOrder{
-//    [self performSegueWithIdentifier:@"showHistoryOrder" sender:nil];
-    [self forwardToUnavailableController];
+    MyReceiptsViewController *vc = [[MyReceiptsViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void) showExaminationResultReport{

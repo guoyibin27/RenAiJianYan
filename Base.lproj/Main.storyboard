@@ -674,7 +674,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="预约纪录" id="HlF-TR-qde"/>
+                    <tabBarItem key="tabBarItem" title="预约纪录" image="ReversationHistory" id="HlF-TR-qde"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h1M-FX-Dcd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3125,6 +3125,7 @@
         <image name="MeIcon" width="24" height="24"/>
         <image name="QueryIcon" width="24" height="24"/>
         <image name="ReserveIcon" width="24" height="23"/>
+        <image name="ReversationHistory" width="24" height="24"/>
         <image name="ShoppingIcon" width="24" height="25"/>
         <image name="checked" width="20" height="20"/>
     </resources>

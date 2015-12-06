@@ -46,9 +46,8 @@ typedef enum{
 #define CURRENT_USER @"CurrentUser"
 #define SHOPPING_CART @"ShoppingCart"
 
-//#define SERVER_HOST @"http://192.168.31.154:9000/api/"
-#define SERVER_HOST @"http://192.168.0.120:9000/api/"
-//#define SERVER_HOST @"http://www.renaijianyan.com:9095/api"
+//#define SERVER_HOST @"http://192.168.0.120:9000/api/"
+#define SERVER_HOST @"http://www.renaijianyan.com:9095/api"
 //#define SERVER_HOST @"http://192.168.1.104:9000/api/"
 //#define IMAGE_SERVER_HOST @"http://192.168.1.104:9001/cui/pages/showimage.aspx?filename="
 //#define IMAGE_SERVER_HOST @"http://192.168.1.148:9001/cui/pages/showimage.aspx?filename="
@@ -61,6 +60,7 @@ typedef enum{
 #define VALIDATE_VERIFY_CODE_URL @"user/validateVerifyCode"
 #define GET_VERIFY_CODE_URL @"user/verifyCode"
 #define FIND_PASSWORD_URL @"user/findPassword"
+#define MY_RECEIPTS @"user/myReceipts"
 
 //REPORT CONTROLLER
 #define QUERY_EXAMINATION_REPORT_URL @"report/query"
@@ -82,10 +82,13 @@ typedef enum{
 //PAYMENT CONTROLLER
 #define UNIFIED_ORDER @"payment/unifiedOrder"
 #define QUERY_RESERVATION_PAY_STATE @"payment/queryReservationPayState"
+#define PRODUCT_UNIFIED_ORDER @"payment/productUnifiedOrder"
+#define QUERY_RECEIPT_PAY_STATE @"payment/queryReceiptPayState"
 
 //product controller
 #define QUERY_PRODUCT @"product/products"
 #define PRODUCT_DETAILS @"product/productDetails"
+#define RECEIPT_TOTAL @"product/receiptTotal"
 
 //Address Controller
 #define ADDRESS_LIST @"address/addresses"

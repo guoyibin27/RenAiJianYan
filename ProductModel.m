@@ -8,6 +8,10 @@
 
 #import "ProductModel.h"
 
+@interface ProductModel()
+@property (retain, nonatomic) NSNumber *productPrice;
+@end
+
 @implementation ProductModel
 
 - (instancetype) initWithJson:(NSDictionary *)jsonDict{
@@ -20,17 +24,20 @@
         self.status = [jsonDict objectForKey:@"_productStatus"];
         self.type = [jsonDict objectForKey:@"_productType"];
         self.statement = [jsonDict objectForKey:@"_productStatement"];
-        self.quantity = [jsonDict objectForKey:@"_productQuantily"];
+        self.quantity = [jsonDict objectForKey:@"_productQuantity"];
         self.sold = [jsonDict objectForKey:@"_sold"];
         self.instruction = [jsonDict objectForKey:@"_productInstruction"];
-        self.productAmount = [jsonDict objectForKey:@""];
         self.productName = [jsonDict objectForKey:@"_productName"];
         self.productPrice = [jsonDict objectForKey:@"_price"];
+        self.fees = [jsonDict objectForKey:@"_fees"];
         self.primaryPicture = [[jsonDict objectForKey:@"_primaryPicture"] objectForKey:@"_pictureURL"];
         NSArray *pictures = [jsonDict objectForKey:@"_productPictures"];
-        for (int i = 0; i < [pictures count];i++) {
-            NSDictionary *picture = pictures[i];
-            [self.productPictures addObject:[picture objectForKey:@"_pictureURL"]];
+        if(pictures.count > 0){
+            self.productPictures = [[NSMutableArray alloc] init];
+            for (int i = 0; i < [pictures count];i++) {
+                NSDictionary *picture = pictures[i];
+                [self.productPictures addObject:[picture objectForKey:@"_pictureURL"]];
+            }
         }
         NSDictionary *suppler = [jsonDict objectForKey:@"_supplier"];
         if(suppler != nil){
@@ -38,6 +45,28 @@
         }
     }
     return self;
+}
+
+- (double) calculateProductAmount{
+    double retVal = _productPrice.doubleValue;
+    for(NSDictionary *fee in _fees){
+        BOOL isGlobal = [fee objectForKey:@"_isGlobal"];
+        NSString *feeName = [fee objectForKey:@"_feeName"];
+        if(isGlobal && [feeName isEqualToString:@"运费"]) continue;
+        NSString *feeType = [fee objectForKey:@"_feeType"];
+        if( [feeType isEqualToString:@"F"]){
+            NSNumber *feeAmt = [fee objectForKey:@"_feeAmt"];
+            retVal += feeAmt.doubleValue;
+        }
+    }
+    for(NSDictionary *fee in _fees){
+        NSString *feeType = [fee objectForKey:@"_feeType"];
+        if( [feeType isEqualToString:@"R"]){
+            NSNumber *feeRate = [fee objectForKey:@"_feeRate"];
+            retVal += (retVal * (feeRate.doubleValue / 100));
+        }
+    }
+    return retVal;
 }
 
 -(void)encodeWithCoder:(NSCoder *)aCoder
@@ -52,13 +81,12 @@
     [aCoder encodeObject:self.quantity forKey:@"quantity"];
     [aCoder encodeObject:self.sold forKey:@"sold"];
     [aCoder encodeObject:self.instruction forKey:@"instruction"];
-    [aCoder encodeObject:self.productAmount forKey:@"productAmount"];
     [aCoder encodeObject:self.productName forKey:@"productName"];
     [aCoder encodeObject:self.productPrice forKey:@"productPrice"];
     [aCoder encodeObject:self.primaryPicture forKey:@"primaryPicture"];
     [aCoder encodeObject:self.buyCount forKey:@"buyCount"];
     [aCoder encodeObject:self.supplierName forKey:@"supplierName"];
-    
+    [aCoder encodeObject:self.fees forKey:@"fees"];
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -73,12 +101,12 @@
     self.quantity = [aDecoder decodeObjectForKey: @"quantity"];
     self.sold = [aDecoder decodeObjectForKey:@"sold"];
     self.instruction = [aDecoder decodeObjectForKey: @"instruction"];
-    self.productAmount = [aDecoder decodeObjectForKey: @"productAmount"];
     self.productName = [aDecoder decodeObjectForKey: @"productName"];
     self.productPrice = [aDecoder decodeObjectForKey: @"productPrice"];
     self.primaryPicture = [aDecoder decodeObjectForKey: @"primaryPicture"];
     self.buyCount = [aDecoder decodeObjectForKey:@"buyCount"];
     self.supplierName = [aDecoder decodeObjectForKey:@"supplierName"];
+    self.fees = [aDecoder decodeObjectForKey:@"fees"];
     return self;
 }
 @end

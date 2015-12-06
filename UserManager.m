@@ -9,6 +9,7 @@
 #import "UserManager.h"
 #import "HttpClient.h"
 #import "UserModel.h"
+#import "ReceiptModel.h"
 
 static UserManager *instance;
 @implementation UserManager
@@ -127,5 +128,18 @@ static UserManager *instance;
     }];
 }
 
-
+- (void) fetchReceiptWithUser:(NSNumber *)userId block:(ArrayResultBlock)block{
+    NSDictionary *param = @{@"cid":userId};
+    [[HttpClient sharedClient] GET:MY_RECEIPTS parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray *array = [NSMutableArray array];
+        NSArray *retArr = [responseObject objectForKey:@"Data"];
+        for(NSDictionary *dic in retArr){
+            [array addObject:[[ReceiptModel alloc] initWithJson:dic]];
+        }
+        block(nil,array);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@",error);
+        block([UserManager errorWithConnectionError],nil);
+    }];
+}
 @end

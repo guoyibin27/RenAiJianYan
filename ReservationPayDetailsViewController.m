@@ -181,12 +181,12 @@
 
 -(void)performPay{
     if(![WXApi isWXAppInstalled]){
-        [self showToastWithError:@"请安装微信客户端"];
+        [self showMessage:@"请安装微信客户端"];
         return;
     }
     
     if(![WXApi isWXAppSupportApi]){
-        [self showToastWithError:@"微信版本太低，建议升级微信"];
+        [self showMessage:@"微信版本太低，建议升级微信"];
         return;
     }
     [self showProgress:nil];
@@ -203,7 +203,7 @@
             req.timeStamp = wxpayData.timeStamp.intValue;
             [WXApi sendReq:req];
         }else{
-            [self showToastWithError:@"微信支付失败，请稍后重试"];
+            [self showMessage:@"微信支付失败，请稍后重试"];
         }
     }];
 }
@@ -215,7 +215,7 @@
             [self queryTradeState];
             break;
         case WXErrCodeUserCancel:
-            [self showToastWithError:@"支付取消"];
+            [self showMessage:@"支付取消"];
             break;
         default:
             break;

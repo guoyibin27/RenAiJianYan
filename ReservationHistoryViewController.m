@@ -83,7 +83,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self showProgress:nil];
     [[ReservationManager manager] getReservedServices:[AppDelegate getCurrentLogonUser].userName block:^(NSError *error, NSMutableArray *array) {
+        [self dismissProgress];
         NSMutableArray * reservedArray = [_dataDict objectForKey:_keyArray[0]];
         NSMutableArray * closedArray = [_dataDict objectForKey:_keyArray[1]];
         [reservedArray removeAllObjects];

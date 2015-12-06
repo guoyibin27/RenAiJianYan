@@ -12,7 +12,7 @@
 
 @property (retain, nonatomic) NSNumber *userId;
 @property (retain, nonatomic) NSNumber *addressId;
-@property (nonatomic) Boolean isDefault;
+@property (nonatomic) BOOL isDefault;
 @property (retain, nonatomic) NSString *status;
 @property (retain, nonatomic) NSString *contact;
 @property (retain, nonatomic) NSString *tel;

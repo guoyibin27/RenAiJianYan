@@ -17,20 +17,31 @@
 #import "WXApi.h"
 #import "WXApiObject.h"
 #import "Constants.h"
-#import "ReservationPayResultErrorViewController.h"
-#import "ReservationPayResultSuccessViewController.h"
+#import "ProductModel.h"
+#import "ProductPayResultSuccessViewController.h"
+#import "ProductPayResultErrorViewController.h"
 
 @interface ProductPayDetailsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (retain, nonatomic) UITableView *tableView;
 @property (retain, nonatomic) NSMutableArray *data;
 @property (retain, nonatomic) PayDetailsPaymentMethodCellModel *selectedCell;
+@property (retain, nonatomic) NSString *receiptNumber;
 @end
 
 @implementation ProductPayDetailsViewController
 
 - (void)initDataSource {
-    PayDetailsOrderInfoCellModel *s1r1 = [PayDetailsOrderInfoCellModel initWithLabel:@"支付项目:" value:@"aaa" selector:nil];
-    PayDetailsOrderInfoCellModel *s1r2 = [PayDetailsOrderInfoCellModel initWithLabel:@"订单金额:" value:[NSString stringWithFormat:@"%@",@"123"] selector:nil];
+    
+    NSString *title = [[NSString alloc] init];
+    for (ProductModel *model in _productList) {
+       title = [title stringByAppendingString:[NSString stringWithFormat:@"%@,",model.productName]];
+    }
+    
+    title = [title substringWithRange:NSMakeRange(0, title.length - 1)];
+
+    PayDetailsOrderInfoCellModel *s1r1 = [PayDetailsOrderInfoCellModel initWithLabel:@"支付项目:" value:title selector:nil];
+
+    PayDetailsOrderInfoCellModel *s1r2 = [PayDetailsOrderInfoCellModel initWithLabel:@"订单金额:" value:[NSString stringWithFormat:@"%0.2f",[_receiptTotal doubleValue]] selector:nil];
     
     PayDetailsPaymentMethodCellModel *s2r1 = [PayDetailsPaymentMethodCellModel initWithTitle:@"微信支付" subTitle:@"推荐安装微信5.0及以上版本" method:PaymentMethodWeChatPay icon:@"WeChatPay" isChecked:YES];
     _selectedCell = s2r1;
@@ -181,16 +192,16 @@
 
 -(void)performPay{
     if(![WXApi isWXAppInstalled]){
-        [self showToastWithError:@"请安装微信客户端"];
+        [self showMessage:@"请安装微信客户端"];
         return;
     }
     
     if(![WXApi isWXAppSupportApi]){
-        [self showToastWithError:@"微信版本太低，建议升级微信"];
+        [self showMessage:@"微信版本太低，建议升级微信"];
         return;
     }
     [self showProgress:nil];
-    [WxPayData unifiedOrderWithUserId:[AppDelegate getCurrentLogonUser].userId block:^(WxPayData *wxpayData) {
+    [WxPayData productUnifiedOrderWithUserId:[AppDelegate getCurrentLogonUser].userId productList:_productList address:_addressId block:^(WxPayData *wxpayData) {
         [self dismissProgress];
         if(wxpayData){
             PayReq *req = [[PayReq alloc] init];
@@ -201,9 +212,10 @@
             req.package = wxpayData.package;
             req.sign= wxpayData.sign;
             req.timeStamp = wxpayData.timeStamp.intValue;
+            _receiptNumber = wxpayData.userObject;
             [WXApi sendReq:req];
         }else{
-            [self showToastWithError:@"微信支付失败，请稍后重试"];
+            [self showMessage:@"微信支付失败，请稍后重试"];
         }
     }];
 }
@@ -215,7 +227,7 @@
             [self queryTradeState];
             break;
         case WXErrCodeUserCancel:
-            [self showToastWithError:@"支付取消"];
+            [self showMessage:@"支付取消"];
             break;
         default:
             break;
@@ -223,18 +235,19 @@
 }
 
 - (void)queryTradeState{
-//    [self showProgress:nil];
-//    [WxPayData queryPayStateWithReservationId:self.reservationModel.reservationId block:^(BOOL success) {
-//        [self dismissProgress];
-//        if(success){
-//            ReservationPayResultSuccessViewController *successVC = [[ReservationPayResultSuccessViewController alloc] init];
-//            [self showViewController:successVC sender:nil];
-//        }else {
-//            ReservationPayResultErrorViewController *errorVC = [[ReservationPayResultErrorViewController alloc] init];
-//            errorVC.reservationModel = self.reservationModel;
-//            [self showViewController:errorVC sender:nil];
-//        }
-//    }];
+    NSLog(@"%@",_receiptNumber);
+    [self showProgress:nil];
+    [WxPayData queryPayStateWithReceipt:_receiptNumber block:^(BOOL success) {
+        [self dismissProgress];
+        if(success){
+            ProductPayResultSuccessViewController *successVC = [[ProductPayResultSuccessViewController alloc] init];
+            [self showViewController:successVC sender:nil];
+        }else {
+            ProductPayResultErrorViewController *errorVC = [[ProductPayResultErrorViewController alloc] init];
+            errorVC.receiptNumber = self.receiptNumber;
+            [self showViewController:errorVC sender:nil];
+        }
+    }];
 }
 
 @end

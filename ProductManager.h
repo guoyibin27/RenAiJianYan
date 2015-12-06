@@ -18,4 +18,5 @@
 
 -(void) productDetails:(NSNumber *)productId block:(ObjectResultBlock)block;
 
+-(void) receiptTotal:(NSArray *)productList uid:(NSNumber *)uid address:(NSNumber *)addressId block:(ObjectResultBlock) block;
 @end

@@ -10,4 +10,8 @@
 
 @interface ProductPayDetailsViewController : BaseViewController
 
+@property (retain, nonatomic) NSNumber *addressId;
+@property (retain, nonatomic) NSArray *productList;
+@property (retain, nonatomic) NSNumber *receiptTotal;
+
 @end

@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+
 @class ProductModel;
 @interface ProductDetailsDescTableViewCell : UITableViewCell
 
 @property (retain, nonatomic) UISegmentedControl *segmentedContrl;
-@property (retain, nonatomic) UILabel *desc;
+@property (retain, nonatomic) UITextView *desc;
 
 -(void)setProductData:(ProductModel *)product;
+
+-(float) cacluateCellHeight;
 @end

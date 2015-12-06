@@ -20,13 +20,15 @@
 @property (retain, nonatomic) NSString *instruction;
 @property (retain, nonatomic) NSNumber *sold;
 @property (retain, nonatomic) NSNumber *quantity;
-@property (retain, nonatomic) NSNumber *productAmount;
 @property (retain, nonatomic) NSString *productName;
-@property (retain, nonatomic) NSNumber *productPrice;
+
 @property (retain, nonatomic) NSString *primaryPicture;
 @property (retain, nonatomic) NSMutableArray *productPictures;
 @property (retain, nonatomic) NSNumber *buyCount;
 @property (retain, nonatomic) NSString *supplierName;
+@property (retain, nonatomic) NSDictionary *fees;
 
 - (instancetype) initWithJson:(NSDictionary *)json;
+
+- (double) calculateProductAmount;
 @end

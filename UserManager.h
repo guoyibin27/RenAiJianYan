@@ -27,4 +27,5 @@
 
 - (void) findPasswordWithUserName:(NSString *)username phone:(NSString *)phone block:(ObjectResultBlock)block;
 
+- (void) fetchReceiptWithUser:(NSNumber *)userId block:(ArrayResultBlock)block;
 @end

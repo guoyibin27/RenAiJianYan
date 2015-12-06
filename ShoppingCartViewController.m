@@ -110,7 +110,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     ProductModel *p = self.datasource[indexPath.row];
-    cell.productPrice.text = [NSString stringWithFormat:@"¥ %@",p.productPrice];
+    cell.productPrice.text = [NSString stringWithFormat:@"¥ %0.2f",[p calculateProductAmount]];
     cell.productName.text = p.productName;
     cell.totalCount.text = [p.buyCount stringValue];
     [cell.productPicture sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_SERVER_HOST,p.primaryPicture]] placeholderImage:[UIImage imageNamed:@"PhotoNotAvailable"]];
@@ -143,11 +143,9 @@
     NSArray *array = [self.tableView indexPathsForSelectedRows];
     if([array containsObject:indexPath]){
         if(calculateType == 0){
-            self.totalPrice = decimalNumberAddingWithString([NSString stringWithFormat:@"%f",self.totalPrice], product.productPrice.stringValue);
-//            self.totalPrice += product.productPrice.floatValue;
+            self.totalPrice = decimalNumberAddingWithString([NSString stringWithFormat:@"%f",self.totalPrice], [NSString stringWithFormat:@"%f",[product calculateProductAmount]]);
         }else{
-//            self.totalPrice -= product.productPrice.floatValue;
-            self.totalPrice = decimalNumberSubtractingWithString([NSString stringWithFormat:@"%f",self.totalPrice], product.productPrice.stringValue);
+            self.totalPrice = decimalNumberSubtractingWithString([NSString stringWithFormat:@"%f",self.totalPrice],  [NSString stringWithFormat:@"%f",[product calculateProductAmount]]);
         }
         [self setTotalPriceLabelValue];
     }
@@ -182,14 +180,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ProductModel *p = self.datasource[indexPath.row];
-    self.totalPrice = decimalNumberAddingWithString([NSString stringWithFormat:@"%f",self.totalPrice], decimalNumberMutiplyWithString(p.buyCount.stringValue, p.productPrice.stringValue));
+    self.totalPrice = decimalNumberAddingWithString([NSString stringWithFormat:@"%f",self.totalPrice], decimalNumberMutiplyWithString(p.buyCount.stringValue,  [NSString stringWithFormat:@"%f",[p calculateProductAmount]]));
     [self setTotalPriceLabelValue];
     [self setProductCountLabelValue];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     ProductModel *p = self.datasource[indexPath.row];
-    self.totalPrice = decimalNumberSubtractingWithString([NSString stringWithFormat:@"%f",self.totalPrice], decimalNumberMutiplyWithString(p.buyCount.stringValue, p.productPrice.stringValue));
+    self.totalPrice = decimalNumberSubtractingWithString([NSString stringWithFormat:@"%f",self.totalPrice], decimalNumberMutiplyWithString(p.buyCount.stringValue, [NSString stringWithFormat:@"%f",[p calculateProductAmount]]));
     [self setTotalPriceLabelValue];
     [self setProductCountLabelValue];
 }

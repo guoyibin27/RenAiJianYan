@@ -19,9 +19,15 @@
 @property (retain, nonatomic) NSString *sign;
 @property (retain, nonatomic) NSString *timeStamp;
 @property (retain, nonatomic) NSString *package;
+@property (retain, nonatomic) NSString *userObject;
 
 
 +(void)unifiedOrderWithUserId:(NSNumber *)userId block:(void (^)(WxPayData *wxpayData))block;
 
 +(void)queryPayStateWithReservationId:(NSNumber *)reservationId block:(BooleanResultBlock)block;
+
++(void)productUnifiedOrderWithUserId:(NSNumber *)userId productList:(NSArray *)productList address:(NSNumber *)addressId block:(void (^)(WxPayData *wxpayData))block;
+
++(void)queryPayStateWithReceipt:(NSString *)receiptNumber block:(BooleanResultBlock)block;
+
 @end
