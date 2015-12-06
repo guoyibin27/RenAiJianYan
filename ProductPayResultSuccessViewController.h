@@ -10,4 +10,6 @@
 
 @interface ProductPayResultSuccessViewController : BaseViewController
 
+@property (retain, nonatomic) NSArray *productList;
+
 @end

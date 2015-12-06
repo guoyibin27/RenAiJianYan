@@ -53,6 +53,7 @@
         [self dismissProgress];
         if(success){
             ProductPayResultSuccessViewController *successVC = [[ProductPayResultSuccessViewController alloc] init];
+            successVC.productList = _productList;
             [self showViewController:successVC sender:nil];
         }
     }];

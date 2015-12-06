@@ -241,9 +241,11 @@
         [self dismissProgress];
         if(success){
             ProductPayResultSuccessViewController *successVC = [[ProductPayResultSuccessViewController alloc] init];
+            successVC.productList = _productList;
             [self showViewController:successVC sender:nil];
         }else {
             ProductPayResultErrorViewController *errorVC = [[ProductPayResultErrorViewController alloc] init];
+            errorVC.productList = _productList;
             errorVC.receiptNumber = self.receiptNumber;
             [self showViewController:errorVC sender:nil];
         }

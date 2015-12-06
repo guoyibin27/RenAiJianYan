@@ -11,4 +11,5 @@
 @interface ProductPayResultErrorViewController : BaseViewController
 
 @property (retain, nonatomic) NSString *receiptNumber;
+@property (retain, nonatomic) NSArray *productList;
 @end

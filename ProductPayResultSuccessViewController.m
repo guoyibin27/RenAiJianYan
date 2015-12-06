@@ -7,6 +7,8 @@
 //
 
 #import "ProductPayResultSuccessViewController.h"
+#import "ProductModel.h"
+#import "ShoppingCartManager.h"
 
 @interface ProductPayResultSuccessViewController ()
 
@@ -56,6 +58,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem.title = @"";
     [self.navigationItem setHidesBackButton:YES];
+    if(_productList){
+        for(ProductModel *p in _productList){
+            [[ShoppingCartManager manager] deleteProductFromCart:p];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
