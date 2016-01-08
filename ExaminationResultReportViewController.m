@@ -121,8 +121,8 @@ NSString *const ReportTableDescription = @"ReportTableDescription";
 + (ReportItemModel *) makeTitleItem{
     ReportItemModel *model = [[ReportItemModel alloc] init];
     model.itemName = @"项目";
-    model.itemBase = @"检验结果";
-    model.itemResult = @"参考范围";
+    model.itemBase = @"参考范围";
+    model.itemResult = @"检验结果";
     return model;
 }
 
@@ -208,6 +208,7 @@ NSString *const ReportTableDescription = @"ReportTableDescription";
         cell.libraryNameLabel.text = header.libraryName;
         cell.examinationMethodLabel.text = header.examinationMethod;
         cell.receiveMethodLabel.text = header.receiveMethod;
+        cell.examinationNumberLabel.text = header.examinationNumber;
         _reportCommentSize = cell.bounds.size;
         return cell;
     }else if([sec isKindOfClass:[NSArray class]]){

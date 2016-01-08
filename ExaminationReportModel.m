@@ -33,7 +33,6 @@
         self.examinationMethod = [data objectForKey:@"ExaminationMethod"];
         self.libraryName = [data objectForKey:@"LibraryName"] ;
         self.tester = [data objectForKey:@"Tester"] ;
-        self.reviewer = [data objectForKey:@"Reviewer"];
         self.receiveYear = [data objectForKey:@"ReceiveYear"];
         self.receiveMonth = [data objectForKey:@"ReceiveMonth"];
         self.receiveDay = [data objectForKey:@"ReceiveDay"];
@@ -47,6 +46,9 @@
         self.methodResult4 = [data objectForKey:@"method_4_result"];
         self.methodResult5 = [data objectForKey:@"method_5_result"];
     }
+    
+    NSDictionary *reviewerDic = [reportDict objectForKey:@"Reviewer"];
+    self.reviewer = [reviewerDic objectForKey:@"Username"];
     return self;
 }
 

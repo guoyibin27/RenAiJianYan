@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureTableView];
-    self.subType = @"T";
+    self.subType = @"M";
     self.servicesArray = [[NSMutableArray alloc] init];
     
     [self showNavigationRightButton:@"完成" selector:@selector(finishSelected)];
@@ -84,9 +84,9 @@
     UISegmentedControl *ctrl = sender;
     
     if(ctrl.selectedSegmentIndex == 0){
-        self.subType = @"T";
-    }else{
         self.subType = @"M";
+    }else{
+        self.subType = @"T";
     }
     [self.tableView reloadData];
 }
